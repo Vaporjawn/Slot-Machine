@@ -1,0 +1,52 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+//using System.Windows.Forms.Control;
+
+namespace SlotMachine
+    {
+    public partial class PlayerEntry : Form
+        {
+        public PlayerEntry()
+            {
+            InitializeComponent();
+            }
+
+        Player currentPlayer = new Player();
+        Program x = new Program();
+        public Form SlotMachine = new frmSlotMachine();
+
+        private void btnLetsPlay_Click(object sender, EventArgs e)
+            {
+            string name = txtName.Text;
+            bool isDigitPresent = name.Any(c => char.IsDigit(c));
+
+            if (String.IsNullOrEmpty(name))
+                {
+                MessageBox.Show("Name is a required field.  Please enter your name, with letters only.");
+                name = "";
+                txtName.Focus();
+                }
+            else if (isDigitPresent == true)
+                {
+                MessageBox.Show("Name is a required field.  Please enter your name, with letters only.");
+                name = "";
+                txtName.Focus();
+                }
+            else if (isDigitPresent == false)
+                {
+                currentPlayer.setID();
+                this.Hide();
+                SlotMachine.Show();
+                }
+
+            }
+
+        }//class
+    }//namespace

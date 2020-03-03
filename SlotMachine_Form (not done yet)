@@ -1,0 +1,283 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+
+namespace SlotMachine
+    {
+    public partial class frmSlotMachine : Form
+        {
+
+        private int defaultBetAmount = 5;
+
+        public frmSlotMachine()
+            {
+            InitializeComponent();
+            txtBetAmount.Text = Convert.ToString(this.defaultBetAmount);
+            }
+
+
+        private void btnExit_Click(object sender, EventArgs e)
+            {
+            
+            Application.Exit();
+            }
+
+        Player currentPlayer = new Player();
+
+        
+        private void btnPlus_Click(object sender, EventArgs e)
+            {
+            defaultBetAmount += 1;
+            //currentPlayer.setCashAmount(currentPlayer.getCashAmount() - 1);
+            //int temp = Convert.ToInt32(currentPlayer.getCashAmount()) + 1;
+            if((defaultBetAmount > Convert.ToUInt32(currentPlayer.getCashAmount())))
+                {
+                MessageBox.Show("You cannot bet more than the money that you have.  Please try again.");
+                }
+            txtBetAmount.Text = Convert.ToString(defaultBetAmount);
+            //txtCurrentCashAmt.Text = Convert.ToString(currentPlayer.getCashAmount() - defaultBetAmount);
+
+            }
+
+        private void btnMinus_Click(object sender, EventArgs e)
+            {
+            defaultBetAmount -= 1;
+            if ((Convert.ToUInt32(currentPlayer.getCashAmount())) <= 0)
+                {
+                MessageBox.Show("You have no money to decrement.  Please try again.");
+                }
+            else if (defaultBetAmount <= 0)
+                {
+                MessageBox.Show("You must bet something in order to play this game.");
+                }
+            txtBetAmount.Text = Convert.ToString(defaultBetAmount);
+            //txtCurrentCashAmt.Text = Convert.ToString(currentPlayer.getCashAmount() - defaultBetAmount);
+
+            }
+        
+        //**********************<LATER CONSTRUCTION>*************************************
+        //private void btnReset_Click(object sender, EventArgs e)
+        //    {
+        //    defaultBetAmount = 5;
+        //    //int oldCashAmount = currentPlayer.getCashAmount();
+        //    //int newCashAmount =  Convert.ToInt32(txtBetAmount.Text) + currentPlayer.getCashAmount();
+
+        //    int oldBetAmount = Convert.ToInt32(txtBetAmount.Text);
+            
+        //    txtBetAmount.Text = Convert.ToString(defaultBetAmount);
+        //    //currentPlayer.setCashAmount(newCashAmount - oldCashAmount);
+        //    txtCurrentCashAmt.Text = Convert.ToString(currentPlayer.getCashAmount()
+        //        + oldBetAmount);
+        //    }
+        //**************************</LATER CONSTRUCTIONS>*******************************
+        
+        /// <summary>
+        /// subtracts the bet amount from player cash.  
+        /// The txtBetAmount could later be used if player has winning combo.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnOkay_Click_1(object sender, EventArgs e) 
+            {
+            currentPlayer.setCashAmount(currentPlayer.getCashAmount() - (Convert.ToInt32(txtBetAmount.Text)));
+            btnSpin.Enabled = true;
+            btnPlus.Enabled = false;
+            btnMinus.Enabled = false;
+            btnOkay.Enabled = false;
+            txtCurrentCashAmt.Text = Convert.ToString(currentPlayer.getCashAmount());
+            }
+
+        Play_Table playTable = new Play_Table();
+        private void btnPlayTable_Click(object sender, EventArgs e)
+            {
+            this.Hide();
+            playTable.Show();
+            }
+
+
+
+        //randNumClass
+        RandNumClass rand = new RandNumClass();
+        
+        private void btnSpin_Click(object sender, EventArgs e)
+            {
+                int betAmount = Convert.ToInt32(txtBetAmount.Text);
+                //winningsCombo win = new winningsCombo(ref betAmount);
+                //SpinClass spin = new SpinClass();
+                winningsCombo checkWin = new winningsCombo();
+                //int caseIndex1; 
+
+                /*COMMENT KENNY 3/27 
+                 * I think something is wrong with spinClass. I tried making a spin() method for spinClass to actually get the random
+                 * displaying ints instead of getting it by the Constructor. Kept getting an error. I tried doing it this way with a method*/
+                //instead of using spinClass, i decided to just use the method outputRecov
+                //I used randNumClass that Bobby made and added a method called getNumber() that returns a random int from 1-6
+                //and just used that to put in place for each outputRecov123 method 
+            //i also changed the outpurRecov method to make it return an int based on which case it hits, this way we can check if a player has
+            //won
+                //outputRecov1(rand.getNumber());
+                //outputRecov2(rand.getNumber());
+                //outputRecov3(rand.getNumber());
+                
+                checkWin.isWin(outputRecov1(rand.getNumber()), outputRecov2(rand.getNumber()), outputRecov3(rand.getNumber()), defaultBetAmount);
+                btnSpin.Enabled = false;
+                btnPlus.Enabled = true;
+                btnMinus.Enabled = true;
+                btnOkay.Enabled = true;
+                txtCurrentCashAmt.Text = Convert.ToString(currentPlayer.getCashAmount());
+            }
+
+        /// <summary>
+        /// Uses the index in order to get the picture associated with the integer
+        /// </summary>
+        /// <param name="index1"> index of the picture that it needs</param>
+        /// //changed method to make it return an int based on which case it is
+        public int outputRecov1(int index1)
+            {
+                switch(index1)
+                    {
+                    case 1:
+                        Console.WriteLine("outputrecov: " + index1);
+                        Image image1 = Image.FromFile("72.png");
+                        pictureBox1.BackgroundImage = image1;
+                        return 1;
+                        
+                        break;
+                    case 2:
+                        Console.WriteLine("outputrecov: " + index1);
+                        Image image2 = Image.FromFile("orange2.png");
+                        pictureBox1.BackgroundImage = image2;
+
+                        return 2;
+                        break;
+                    case 3:
+                        Console.WriteLine("outputrecov: " + index1);
+                        Image image3 = Image.FromFile("watermelon4.png");
+                        pictureBox1.BackgroundImage = image3;
+                        return 3;
+                        break;
+                    case 4:
+                        Console.WriteLine("outputrecov: " + index1);
+                        Image image4 = Image.FromFile("lemon 21.png");
+                        pictureBox1.BackgroundImage = image4;
+                        return 4;
+                       
+                        break;
+                    case 5:
+                        Console.WriteLine("outputrecov: " + index1);
+                        Image image5 = Image.FromFile("frankie2.png");
+                        pictureBox1.BackgroundImage = image5;
+
+                        return 5;
+                        break;
+                    case 6:
+                        Console.WriteLine("outputrecov: " + index1);
+                        Image image6 = Image.FromFile("cherry.png");
+                        pictureBox1.BackgroundImage = image6;
+
+                        return 6;
+                        break;
+                    }//end of switch
+                return 0; // it will never be 0, just putting this for the method to work
+                }//outputrecov1
+
+        public int outputRecov2(int index2)
+            {
+            switch (index2)
+                {
+                case 1:
+                    Console.WriteLine("outputrecov2: " + index2);
+                    Image image1 = Image.FromFile("72.png");
+                    pictureBox2.BackgroundImage = image1;
+                    return 1;
+                    break;
+                case 2:
+                    Console.WriteLine("outputrecov2: " + index2);
+                    Image image2 = Image.FromFile("orange2.png");
+                    pictureBox2.BackgroundImage = image2;
+                    return 2;
+                    break;
+                case 3:
+                    Console.WriteLine("outputrecov2: " + index2);
+                    Image image3 = Image.FromFile("watermelon4.png");
+                    pictureBox2.BackgroundImage = image3;
+                    return 3;
+                    break;
+                case 4:
+                    Console.WriteLine("outputrecov2: " + index2);
+                    Image image4 = Image.FromFile("lemon 21.png");
+                    pictureBox2.BackgroundImage = image4;
+                    return 4;
+                    break;
+                case 5:
+                    Console.WriteLine("outputrecov2: " + index2);
+                    Image image5 = Image.FromFile("frankie2.png");
+                    pictureBox2.BackgroundImage = image5;
+                    return 5;
+                    break;
+                case 6:
+                    Console.WriteLine("outputrecov2: " + index2);
+                    Image image6 = Image.FromFile("cherry.png");
+                    pictureBox2.BackgroundImage = image6;
+                    return 6;
+                    break;
+                }//end of switch
+            return 0;
+            }//end outputrecov 2
+
+        public int outputRecov3(int index3)
+            {
+            switch (index3)
+                {
+                case 1:
+                    Console.WriteLine("outputrecov3: " + index3);
+                    Image image1 = Image.FromFile("72.png");
+                    pictureBox3.BackgroundImage = image1;
+                    return 1;
+                    break;
+                case 2:
+                    Console.WriteLine("outputrecov3: " + index3);
+                    Image image2 = Image.FromFile("orange2.png");
+                    pictureBox3.BackgroundImage = image2;
+                    return 2;
+                    break;
+                case 3:
+                    Console.WriteLine("outputrecov3: " + index3);
+                    Image image3 = Image.FromFile("watermelon4.png");
+                    pictureBox3.BackgroundImage = image3;
+                    return 3;
+                    break;
+                case 4:
+                    Console.WriteLine("outputrecov3: " + index3);
+                    Image image4 = Image.FromFile("lemon 21.png");
+                    pictureBox3.BackgroundImage = image4;
+                    return 4;
+                    break;
+                case 5:
+                    Console.WriteLine("outputrecov3: " + index3);
+                    Image image5 = Image.FromFile("frankie2.png");
+                    pictureBox3.BackgroundImage = image5;
+                    return 5;
+                    break;
+                case 6:
+                    Console.WriteLine("outputrecov3: " + index3);
+                    Image image6 = Image.FromFile("cherry.png");
+                    pictureBox3.BackgroundImage = image6;
+                    return 6;
+                    break;
+                }//end of switch
+            return 0;
+            }//end of outputrecov3
+            
+            }//class
+        }//namespace
+    
+    
+

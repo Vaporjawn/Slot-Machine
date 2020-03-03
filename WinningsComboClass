@@ -1,0 +1,56 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SlotMachine
+    {
+    class winningsCombo
+        {
+
+        frmSlotMachine SlotMachine = new frmSlotMachine();
+        SpinClass SpinC = new SpinClass();
+
+        private string[] readArray = new string[6]; //holds initial read of text file
+        private int[] payoutArray = new int[6];       //holds converted read of text file
+        SpinClass spinTime = new SpinClass();
+
+        public Double reward = 0;
+        String payoutIndex; //another name for filepath that will be used in methods
+        Boolean endOfFileFlag;
+
+        //int betAmount = Convert.ToInt32(frmSlotMachine.txtBetAmount.Text);
+
+        public winningsCombo(ref int betAmount)
+            {
+            currentFileClass currentFile = new currentFileClass("payoutIndex.txt");
+            payoutIndex = "payoutIndex.txt";
+
+            String record = currentFile.getNextRecord(ref endOfFileFlag);
+
+            readArray = record.Split('*');
+            //    Payout(ref betAmount);
+            }
+
+        //public int randNum1 = SpinC.getRandNum1();
+
+        //public void Payout(ref int betAmount)
+        //    {
+        //    for (int i = 1; i <= 6; i++)
+        //        {
+        //        if (randNum1 == i && index2 == i && index3 == i)
+        //            {
+                    //payoutArray[i - 1] = Convert.ToInt32(readArray[i - 1]);
+                    //            reward = betAmount * payoutArray[i-1];
+                    //        }//end of if	
+                    //        else
+                    //        {
+                    //            SlotMachine.lblResult.Text = "Sorry, you have won nothing. Better luck next time, LOSER!";
+                    //        }//end of else
+                    }//end of for
+                }//end of Payout
+
+        //    }//class
+        //}//namespace
+    //}

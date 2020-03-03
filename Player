@@ -1,0 +1,57 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SlotMachine
+    {
+    class Player
+        {
+
+        //ATTRIBUTES
+        private string playerName = "";
+        private double cashAmount = 100; //100 coins
+        private int playerID;
+        private int idCounter = 0;
+        private string record;  //player's name, cash amount, id all held in one string
+
+        //CONSTRUCTORS
+        public Player() //default constructor
+            {
+            }
+
+        public Player(string name)
+            {
+            this.playerName = name;
+            }
+
+
+        //METHODS
+        public string getName()
+            {
+            return (this.playerName);
+            }
+
+        public double getBal()
+            {
+            return (this.cashAmount);
+            }
+
+        public void setID()
+            {
+            this.playerID = idCounter++;
+            }
+
+        public void setRecord(int id, string name, double cashMoney)
+            {
+            this.record = id.ToString() + name + cashMoney.ToString();
+            }
+
+        public string getRecord()
+            {
+            return (this.record);
+            }
+
+        }
+    }

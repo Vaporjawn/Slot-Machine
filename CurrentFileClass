@@ -1,0 +1,69 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace SlotMachine
+    {
+    // Current File Class Class 
+    // Data stores and method related to the Current File processed by the project
+
+    // Frank Friedman
+    // CIS 3309
+
+    // Adapted from VB Version 1 - Feb 6 2010 by FLF July 18, 2013
+
+    public class currentFileClass
+        {
+        //private attribiutes
+        private string currentFilePath;
+        private System.IO.StreamReader currentFileSR;   // Reference variable of type SR
+        private int recordReadCount;
+
+        // Constructor with file path input
+        // Create instance of StreamReader class (type) and store reference
+        public currentFileClass
+            (string filePath)
+            {
+            //recordReadCount = 0;
+            currentFilePath = filePath;
+            try
+                {
+                currentFileSR = new System.IO.StreamReader(currentFilePath);
+                }
+            catch (Exception)
+                {
+                MessageBox.Show("Cannot open file" + currentFilePath + "Terminate Program.",
+                            "Output File Connection Error.",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                } // end Try
+            } // end currentFileClass 
+
+
+        // Read a record from the current file
+        public string getNextRecord(ref Boolean endOfFileFlag)
+            {
+            string nextRecord = currentFileSR.ReadLine();
+
+            if (nextRecord == null)
+                {
+                endOfFileFlag = true;
+                }
+            else
+                {
+                endOfFileFlag = false;
+                } // end if
+            return (nextRecord);
+            } // end getNextRecord
+
+        // Close the input file
+        public void closeFile()
+            {
+            currentFileSR.Close();
+            } // end Sub
+
+
+        } // end currentFileClass
+    }
